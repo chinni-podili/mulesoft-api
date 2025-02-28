@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="hello-mule-test-test-suite.xml" />
+	<munit:test name="hello-mule-assert-that" doc:id="309d9b78-e3a8-4f7a-b239-53a7d23f8652" >
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="a476b930-110c-4d48-8a3d-01c97f77ee7b">
+				<munit:attributes value='#[{queryParams: {firstName: "venky", lastName: "podili"}}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to hello-mule-testFlow" doc:id="8bfaff3b-7adf-4043-9fe1-9e7f89006134" name="hello-mule-testFlow" />
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="d0024c3f-3acd-48bd-9c08-64986e96392f" message="#[payload]" />
+			<munit-tools:assert-that doc:name="Assert that" doc:id="aedc43cf-6720-4e76-aa05-40459c9137e5" is='#[MunitTools::equalTo("welcome to Mule venky podili")]' expression="#[payload.message]"/>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="hello-mule-assert-exprssion" doc:id="882ed94a-2d20-462b-b3b6-7f1bebe9ed8b" >
+		<munit:execution>
+			<munit:set-event doc:name="Set Event" doc:id="00810ccb-b8bc-4b86-aaa0-145bc7b236a5">
+				<munit:attributes value='#[{queryParams: {firstName: "venky", lastName: "podili"}}]' />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to hello-mule-testFlow" doc:id="3147f508-ee25-4d96-aab9-702c1e4fb69f" name="hello-mule-testFlow" />
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="86cf140c-31c1-4cc6-95a7-9382c0733f92" message="#[payload]" />
+			<munit-tools:assert doc:name="Assert expression" doc:id="74c02f1c-d9f9-4b3f-ba88-51c70a1ad064" >
+				<munit-tools:that ><![CDATA[#[import * from dw::test::Asserts 
+ ---
+payload must equalTo({
+	"message": "welcome to Mule venky podili"
+})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+	<munit:test name="hello-mule-assert-dwl" doc:id="f9948302-26b5-454f-806a-92faae3a8de1" >
+		<munit:execution>
+			<munit:set-event doc:name="Set Event" doc:id="7cda9031-01c3-44b1-ad58-26caeed75b57" >
+				<munit:attributes value="#[readUrl('classpath://hello/hello_input.dwl')]" />
+			</munit:set-event>
+			<flow-ref doc:name="Flow-ref to hello-mule-testFlow" doc:id="c3baa101-8562-4641-a043-0d4809448a3b" name="hello-mule-testFlow" />
+		</munit:execution>
+		<munit:validation >
+			<logger level="INFO" doc:name="Logger" doc:id="2f6dfcb7-8ebd-4bfd-9126-c0deb259cf5c" message="#[payload]" />
+			<munit-tools:assert doc:name="Assert expression" doc:id="444c7e2b-8d7a-4a2a-9d43-de6ccf9a2454" >
+				<munit-tools:that ><![CDATA[#[%dw 2.0
+import hello::hello_dwl_file
+---
+hello_dwl_file::main({payload: payload, attributes: attributes, vars: vars})]]]></munit-tools:that>
+			</munit-tools:assert>
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
