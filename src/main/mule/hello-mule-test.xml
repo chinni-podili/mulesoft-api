@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="d8cd64e7-802f-4740-b863-35b3cd074255" flowRef="hello-mule-testFlow" />
 	<flow name="hello-mule-testFlow" doc:id="123ce47c-1e50-48ac-af4b-b8498fc876b9" >
 		<http:listener doc:name="Listener" doc:id="ab70a52c-ae71-4740-b5f2-f381af11503e" config-ref="HTTP_Listener_config" path="hello" />
-		<logger level="INFO" doc:name="Logger" doc:id="3433e808-454c-4aa0-be7c-0e7264d277a8" message="started"/>
+		<logger level="INFO" doc:name="Logger" doc:id="3433e808-454c-4aa0-be7c-0e7264d277a8" message="started the api with info logs"/>
 		<ee:transform doc:name="Transform Message" doc:id="dfd4a047-fdf6-4824-846f-d5f4c705a0da" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
