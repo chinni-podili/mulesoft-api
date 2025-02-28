@@ -23,6 +23,6 @@ output application/json
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
-		<logger level="INFO" doc:name="Logger" doc:id="8ce7ed24-1da7-4421-b6c6-30b3aff284f5" message="ended"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8ce7ed24-1da7-4421-b6c6-30b3aff284f5" message="message api flow has been ended"/>
 	</flow>
 </mule>
