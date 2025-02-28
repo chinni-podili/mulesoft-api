@@ -19,7 +19,7 @@ http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/m
 output application/json
 ---
 {
-	"message": "welcome to Mule " ++ (attributes.queryParams.firstName ++ " " ++ attributes.queryParams.lastName )
+	"message": "welcome to Mule esb" ++ (attributes.queryParams.firstName ++ " " ++ attributes.queryParams.lastName )
 }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
