@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:api-gateway="http://www.mulesoft.org/schema/mule/api-gateway" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/api-gateway http://www.mulesoft.org/schema/mule/api-gateway/current/mule-api-gateway.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ea2d1390-e2b8-4f8f-8bef-276708ed86fb" >
+		<http:listener-connection host="0.0.0.0" port="${http.port}" />
+	</http:listener-config>
+	<api-gateway:autodiscovery apiId="${api.id}" ignoreBasePath="true" doc:name="API Autodiscovery" doc:id="d8cd64e7-802f-4740-b863-35b3cd074255" flowRef="hello-mule-testFlow" />
+	<flow name="hello-mule-testFlow" doc:id="123ce47c-1e50-48ac-af4b-b8498fc876b9" >
+		<http:listener doc:name="Listener" doc:id="ab70a52c-ae71-4740-b5f2-f381af11503e" config-ref="HTTP_Listener_config" path="hello" />
+		<logger level="INFO" doc:name="Logger" doc:id="3433e808-454c-4aa0-be7c-0e7264d277a8" message="started the api with info logs"/>
+		<ee:transform doc:name="Transform Message" doc:id="dfd4a047-fdf6-4824-846f-d5f4c705a0da" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message": "welcome to Mule esb to venkat" ++ (attributes.queryParams.firstName ++ " " ++ attributes.queryParams.lastName )
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Logger" doc:id="8ce7ed24-1da7-4421-b6c6-30b3aff284f5" message="message api flow has been ended"/>
+	</flow>
+</mule>
